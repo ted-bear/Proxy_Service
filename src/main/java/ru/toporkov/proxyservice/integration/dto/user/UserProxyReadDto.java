@@ -1,4 +1,4 @@
-package ru.toporkov.proxyservice.integration.domain.user;
+package ru.toporkov.proxyservice.integration.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserProxyReadDto {
 
     private Long id;
     private String name;
