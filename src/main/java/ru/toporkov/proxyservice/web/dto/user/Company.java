@@ -1,4 +1,4 @@
-package ru.toporkov.proxyservice.integration.dto.user;
+package ru.toporkov.proxyservice.web.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

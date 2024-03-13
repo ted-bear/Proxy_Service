@@ -1,4 +1,4 @@
-package ru.toporkov.proxyservice.integration.dto.user;
+package ru.toporkov.proxyservice.web.dto.album;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Geo {
+public class AlbumProxyCreateEditDto {
 
-    private String lat;
-    private String lng;
+    private Long userId;
+    private String title;
 
 }
