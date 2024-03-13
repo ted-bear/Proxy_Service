@@ -31,19 +31,19 @@ public class PostController {
 
     @GetMapping
     public List<PostProxyReadDto> findAll(HttpServletRequest request, Principal principal) {
-        audit(request, principal, "");
+        auditService.create(request, principal, "");
         return postProxyService.findAll();
     }
 
     @GetMapping("/{id}")
     public PostProxyReadDto findById(@PathVariable("id") Long id, HttpServletRequest request, Principal principal) {
-        audit(request, principal, "");
+        auditService.create(request, principal, "");
         return postProxyService.findById(id);
     }
 
     @PostMapping
     public PostProxyReadDto create(@RequestBody PostProxyCreateEditDto postDto, HttpServletRequest request, Principal principal) {
-        audit(request, principal, postDto.toString());
+        auditService.create(request, principal, postDto.toString());
         return postProxyService.create(postDto);
     }
 
@@ -52,24 +52,14 @@ public class PostController {
                                    @RequestBody PostProxyCreateEditDto postDto,
                                    HttpServletRequest request,
                                    Principal principal) {
-        audit(request, principal, postDto.toString());
+        auditService.create(request, principal, postDto.toString());
         return postProxyService.update(postDto, id);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id, HttpServletRequest request, Principal principal) {
-        audit(request, principal, "");
+        auditService.create(request, principal, "");
         postProxyService.delete(id);
-    }
-
-    private void audit(HttpServletRequest request, Principal principal, String body) {
-        AuditAction auditAction = new AuditAction();
-        auditAction.setMethod(request.getMethod());
-        auditAction.setCreatedAt(Instant.now());
-        auditAction.setUrl(request.getRequestURL().toString());
-        auditAction.setRequestBody(body != null ? body : "");
-        auditAction.setCreatedBy(principal.getName());
-        auditService.create(auditAction);
     }
 
 }

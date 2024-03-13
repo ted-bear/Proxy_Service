@@ -32,20 +32,20 @@ public class AlbumController {
 
     @GetMapping
     public List<AlbumProxyReadDto> findAll(HttpServletRequest request, Principal principal) {
-        audit(request, principal, "");
+        auditService.create(request, principal, "");
 
         return albumProxyService.findAll();
     }
 
     @GetMapping("/{id}")
     public AlbumProxyReadDto findById(@PathVariable("id") Long id, HttpServletRequest request, Principal principal) {
-        audit(request, principal, "");
+        auditService.create(request, principal, "");
         return albumProxyService.findById(id);
     }
 
     @PostMapping
     public AlbumProxyReadDto create(@RequestBody AlbumProxyCreateEditDto albumDto, HttpServletRequest request, Principal principal) {
-        audit(request, principal, albumDto.toString());
+        auditService.create(request, principal, albumDto.toString());
         return albumProxyService.create(albumDto);
     }
 
@@ -54,7 +54,7 @@ public class AlbumController {
                                     @RequestBody  AlbumProxyCreateEditDto albumDto,
                                     HttpServletRequest request,
                                     Principal principal) {
-        audit(request, principal, albumDto.toString());
+        auditService.create(request, principal, albumDto.toString());
         return albumProxyService.update(albumDto, id);
     }
 
@@ -62,17 +62,8 @@ public class AlbumController {
     public void delete(@PathVariable("id") Long id,
                        HttpServletRequest request,
                        Principal principal) {
-        audit(request, principal, "");
+        auditService.create(request, principal, "");
         albumProxyService.delete(id);
     }
 
-    private void audit(HttpServletRequest request, Principal principal, String body) {
-        AuditAction auditAction = new AuditAction();
-        auditAction.setMethod(request.getMethod());
-        auditAction.setCreatedAt(Instant.now());
-        auditAction.setUrl(request.getRequestURL().toString());
-        auditAction.setRequestBody(body != null ? body : "");
-        auditAction.setCreatedBy(principal.getName());
-        auditService.create(auditAction);
-    }
 }

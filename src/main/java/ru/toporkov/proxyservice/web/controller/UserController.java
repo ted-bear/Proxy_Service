@@ -30,41 +30,31 @@ public class UserController {
 
     @GetMapping
     public List<UserProxyReadDto> findAll(HttpServletRequest request, Principal principal) {
-        audit(request, principal, "");
+        auditService.create(request, principal, "");
         return userProxyService.findAll();
     }
 
     @GetMapping("/{id}")
     public UserProxyReadDto findById(@PathVariable("id") Long id, HttpServletRequest request, Principal principal) {
-        audit(request, principal, "");
+        auditService.create(request, principal, "");
         return userProxyService.findById(id);
     }
 
     @PostMapping
     public UserProxyReadDto create(@RequestBody UserProxyCreateEditDto userDto, HttpServletRequest request, Principal principal) {
-        audit(request, principal, userDto.toString());
+        auditService.create(request, principal, userDto.toString());
         return userProxyService.create(userDto);
     }
 
     @PutMapping("/{id}")
     public UserProxyReadDto update(@PathVariable("id") Long id, @RequestBody  UserProxyCreateEditDto userDto, HttpServletRequest request, Principal principal) {
-        audit(request, principal, userDto.toString());
+        auditService.create(request, principal, userDto.toString());
         return userProxyService.update(userDto, id);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id, HttpServletRequest request, Principal principal) {
-        audit(request, principal, "");
+        auditService.create(request, principal, "");
         userProxyService.delete(id);
-    }
-
-    private void audit(HttpServletRequest request, Principal principal, String body) {
-        AuditAction auditAction = new AuditAction();
-        auditAction.setMethod(request.getMethod());
-        auditAction.setCreatedAt(Instant.now());
-        auditAction.setUrl(request.getRequestURL().toString());
-        auditAction.setRequestBody(body != null ? body : "");
-        auditAction.setCreatedBy(principal.getName());
-        auditService.create(auditAction);
     }
 }

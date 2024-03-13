@@ -1,8 +1,10 @@
 package ru.toporkov.proxyservice.service;
 
-import ru.toporkov.proxyservice.domain.aud.AuditAction;
+import jakarta.servlet.http.HttpServletRequest;
+
+import java.security.Principal;
 
 public interface AuditService {
 
-    void create(AuditAction auditAction);
+    void create(HttpServletRequest request, Principal principal, String body);
 }
